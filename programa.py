@@ -1,3 +1,5 @@
+#funcoes
+
 def define_posicoes(linha, coluna, orientacao, tamanho):
     lista_final = []
 
@@ -101,6 +103,17 @@ def posicao_valida(frota, linha, coluna, orienta, tamanho):
     
     return True
 
+def monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente):
+    texto = ''
+    texto += '   0  1  2  3  4  5  6  7  8  9         0  1  2  3  4  5  6  7  8  9\n'
+    texto += '_______________________________      _______________________________\n'
+
+    for linha in range(len(tabuleiro_jogador)):
+        jogador_info = '  '.join([str(item) for item in tabuleiro_jogador[linha]])
+        oponente_info = '  '.join([info if str(info) in 'X-' else '0' for info in tabuleiro_oponente[linha]])
+        texto += f'{linha}| {jogador_info}|     {linha}| {oponente_info}|\n'
+    return texto
+
 # programa.py
 
 embarcacoes = [
@@ -139,7 +152,68 @@ for nome, tamanho, qtd in embarcacoes:
         else:
             print("Esta posição não está válida!")
 
-print(frota)
+frotainimiga = {
+    'porta-aviões': [
+        [[9, 1], [9, 2], [9, 3], [9, 4]]
+    ],
+    'navio-tanque': [
+        [[6, 0], [6, 1], [6, 2]],
+        [[4, 3], [5, 3], [6, 3]]
+    ],
+    'contratorpedeiro': [
+        [[1, 6], [1, 7]],
+        [[0, 5], [1, 5]],
+        [[3, 6], [3, 7]]
+    ],
+    'submarino': [
+        [[2, 7]],
+        [[0, 6]],
+        [[9, 7]],
+        [[7, 6]]
+    ]
+}
+
+tabuleirojogador = posiciona_frota(frota)
+tabuleiroinimigo = posiciona_frota(frotainimiga)
+
+naviosinimigos = 10
+jogadas = []  
+jogando = True
+
+while jogando:
+    print(monta_tabuleiros(tabuleirojogador, tabuleiroinimigo))
+    
+    linha_valida = False
+    while linha_valida is False:
+        linha = int(input("Jogador, qual linha deseja atacar? "))
+        if 0 <= linha <= 9:
+            linha_valida = True
+        else:
+            print("Linha inválida!")
+
+    coluna_valida = False
+    while coluna_valida is False:
+        coluna = int(input("Jogador, qual coluna deseja atacar? "))
+        if 0 <= coluna <= 9:
+            coluna_valida = True
+        else:
+            print("Coluna inválida!")
+
+    pos_repetida = [linha, coluna] in jogadas
+    if pos_repetida:
+        print("A posição linha " + str(linha) + " e coluna " + str(coluna) + " já foi informada anteriormente!")
+    else:
+        jogadas.append([linha, coluna])
+        tabuleiroinimigo = faz_jogada(tabuleiroinimigo, linha, coluna)
+   
+    if afundados(frotainimiga, tabuleiroinimigo) == naviosinimigos:
+        print(monta_tabuleiros(tabuleirojogador, tabuleiroinimigo))
+        print("Parabéns! Você derrubou todos os navios do seu oponente!")
+        jogando = False
+
+
+
+
 
 
 
