@@ -100,3 +100,61 @@ def posicao_valida(frota, linha, coluna, orienta, tamanho):
                     return False
     
     return True
+
+# programa.py
+
+embarcacoes = [
+    ("porta-aviões", 4, 1),
+    ("navio-tanque", 3, 2),
+    ("contratorpedeiro", 2, 3),
+    ("submarino", 1, 4),
+]
+
+frota = {
+    "porta-aviões": [],
+    "navio-tanque": [],
+    "contratorpedeiro": [],
+    "submarino": []
+}
+
+for nome, tamanho, qtd in embarcacoes:
+    colocados = 0
+    while colocados < qtd:
+        print(f"Insira as informações referentes ao navio {nome} que possui tamanho {tamanho}")
+        linha = int(input("Linha: "))
+        coluna = int(input("Coluna: "))
+
+        if nome == "submarino":
+            orientacao = "vertical"  
+        else:
+            a = int(input("[1] Vertical [2] Horizontal >"))
+            if a == 1:
+                orientacao = "vertical"
+            else:
+                orientacao = "horizontal"
+
+        if posicao_valida(frota, linha, coluna, orientacao, tamanho):
+            frota = preenche_frota(frota, nome, linha, coluna, orientacao, tamanho)
+            colocados += 1
+        else:
+            print("Esta posição não está válida!")
+
+print(frota)
+
+
+
+
+
+
+            
+
+
+
+
+    
+
+
+
+
+  
+   
