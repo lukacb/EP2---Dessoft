@@ -10,6 +10,8 @@ from funcoes import (
     monta_tabuleiros
 )
 
+import random
+
 # programa.py
 
 embarcacoes = [
@@ -74,6 +76,7 @@ tabuleiro_oponente = posiciona_frota(frota_oponente)
 
 total_navios_oponente = 10
 jogadas_feitas = []
+jogadas_oponente = []
 jogando = True
 
 while jogando:
@@ -127,6 +130,22 @@ while jogando:
             print("Parabéns! Você derrubou todos os navios do seu oponente!")
             jogando = False
 
+    else:
+
+        pos_valida_oponente = False
+        while pos_valida_oponente is False:
+            linha_op = random.randint(0, 9)
+            coluna_op = random.randint(0, 9)
+            if [linha_op, coluna_op] not in jogadas_oponente:
+                pos_valida_oponente = True
+                jogadas_oponente.append([linha_op, coluna_op])
+
+                print("Seu oponente está atacando na linha " + str(linha_op) + " e coluna " + str(coluna_op))
+                tabuleiro_jogador = faz_jogada(tabuleiro_jogador, linha_op, coluna_op)
+
+                if afundados(frota, tabuleiro_jogador) == 10:
+                    print("Xi! O oponente derrubou toda a sua frota =(")
+                    jogando = False
 
 
 
