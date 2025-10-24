@@ -77,6 +77,7 @@ jogadas_feitas = []
 jogando = True
 
 while jogando:
+    print(monta_tabuleiros(tabuleiro_jogador, tabuleiro_oponente))
 
     linha_valida = False
     while linha_valida is False:
