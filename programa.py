@@ -97,12 +97,33 @@ while jogando:
 
     pos_repetida = [linha, coluna] in jogadas_feitas
     if pos_repetida:
+        atqvalido = False
         print("A posição linha " + str(linha) + " e coluna " + str(coluna) + " já foi informada anteriormente!")
-    else:
-        jogadas_feitas.append([linha, coluna])
-        tabuleiro_oponente = faz_jogada(tabuleiro_oponente, linha, coluna)
+        while atqvalido is False:
+            linha_valida = False
+            while linha_valida is False:
+                linha = int(input("Jogador, qual linha deseja atacar? "))
+                if 0 <= linha <= 9:
+                    linha_valida = True
+                else:
+                    print("Linha inválida!")
 
-        if afundados(frota_oponente, tabuleiro_oponente) == 10:
+            coluna_valida = False
+            while coluna_valida is False:
+                coluna = int(input("Jogador, qual coluna deseja atacar? "))
+                if 0 <= coluna <= 9:
+                    coluna_valida = True
+                else:
+                    print("Coluna inválida!")
+            pos_repetida = [linha, coluna] in jogadas_feitas
+            if not pos_repetida:
+                atqvalido = True
+
+    
+    jogadas_feitas.append([linha, coluna])
+    tabuleiro_oponente = faz_jogada(tabuleiro_oponente, linha, coluna)
+
+    if afundados(frota_oponente, tabuleiro_oponente) == 10:
             print("Parabéns! Você derrubou todos os navios do seu oponente!")
             jogando = False
 
